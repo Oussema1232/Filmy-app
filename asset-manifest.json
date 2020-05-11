@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/Filmy-app/static/css/main.789664c7.chunk.css",
+    "main.js": "/Filmy-app/static/js/main.2b496037.chunk.js",
+    "main.js.map": "/Filmy-app/static/js/main.2b496037.chunk.js.map",
+    "runtime-main.js": "/Filmy-app/static/js/runtime-main.8973e0d9.js",
+    "runtime-main.js.map": "/Filmy-app/static/js/runtime-main.8973e0d9.js.map",
+    "static/css/2.989fd588.chunk.css": "/Filmy-app/static/css/2.989fd588.chunk.css",
+    "static/js/2.198df512.chunk.js": "/Filmy-app/static/js/2.198df512.chunk.js",
+    "static/js/2.198df512.chunk.js.map": "/Filmy-app/static/js/2.198df512.chunk.js.map",
+    "index.html": "/Filmy-app/index.html",
+    "precache-manifest.0a3b0e073d4cbf175d38c0f586a77fc3.js": "/Filmy-app/precache-manifest.0a3b0e073d4cbf175d38c0f586a77fc3.js",
+    "service-worker.js": "/Filmy-app/service-worker.js",
+    "static/css/2.989fd588.chunk.css.map": "/Filmy-app/static/css/2.989fd588.chunk.css.map",
+    "static/css/main.789664c7.chunk.css.map": "/Filmy-app/static/css/main.789664c7.chunk.css.map",
+    "static/js/2.198df512.chunk.js.LICENSE.txt": "/Filmy-app/static/js/2.198df512.chunk.js.LICENSE.txt",
+    "static/media/font-awesome.css": "/Filmy-app/static/media/fontawesome-webfont.fee66e71.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8973e0d9.js",
+    "static/css/2.989fd588.chunk.css",
+    "static/js/2.198df512.chunk.js",
+    "static/css/main.789664c7.chunk.css",
+    "static/js/main.2b496037.chunk.js"
+  ]
+}
