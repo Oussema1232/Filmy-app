@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
+import ThemeContext from "../commun/context/themeContext";
 
-function NavBar({ user }) {
+function NavBar({ user, lightmode, changeTheme }) {
+  const theme = useContext(ThemeContext);
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav
+      className={`navbar navbar-expand-lg navbar-${theme.mode} bg-${theme.mode}`}
+    >
       <Link className="navbar-brand" to="/">
         Filmy
       </Link>
@@ -36,6 +40,16 @@ function NavBar({ user }) {
           </NavLink>
         </React.Fragment>
       )}
+      <div className="custom-control custom-switch">
+        <input
+          type="checkbox"
+          className="custom-control-input"
+          id="theme"
+          checked={lightmode}
+          onChange={changeTheme}
+        />
+        <label className="custom-control-label" for="theme"></label>
+      </div>
     </nav>
   );
 }

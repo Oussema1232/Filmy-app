@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import { ToastContainer } from "react-toastify";
 import { Route, Redirect, Switch } from "react-router-dom";
 
@@ -13,30 +13,60 @@ import MovieForm from "./components/movieForm";
 import NotFound from "./components/NotFound";
 import ProtectedRoute from "./commun/protectedRoute";
 import auth from "./services/authService";
+import ThemeContext from "./commun/context/themeContext";
 import "react-toastify/dist/ReactToastify.css";
 
-class App extends Component {
-  state = {};
-  componentDidMount() {
-    const user = auth.getCurrentUser();
-    this.setState({ user });
-  }
+function App() {
+  const [user, setUser] = useState();
+  const [lightmode, setLightmode] = useState(false);
+  const [theme, setTheme] = useState({
+    mode: "dark",
+    color: "#eee",
+    createButton: "info",
+    deleteButton: "danger",
+    tableColor: "primary",
+  });
 
-  render() {
-    return (
+  useEffect(() => {
+    const user = auth.getCurrentUser();
+    setUser(user);
+  }, []);
+
+  const changeTheme = () => {
+    setLightmode(!lightmode);
+    setTheme(
+      !lightmode
+        ? {
+            mode: "light",
+            color: "black",
+            createButton: "warning",
+            deleteButton: "success",
+            tableColor: "secondary",
+          }
+        : {
+            mode: "dark",
+            color: "#eee",
+            createButton: "info",
+            deleteButton: "danger",
+            tableColor: "primary",
+          }
+    );
+  };
+  return (
+    <ThemeContext.Provider value={theme}>
       <div
-        className="container-fluid bg-dark"
-        style={{ height: "100vh", padding: 10, color: "#eee" }}
+        className={`container-fluid bg-${theme.mode}`}
+        style={{ height: "100vh", padding: 10, color: theme.color }}
       >
         <ToastContainer />
-        <NavBar user={this.state.user} />
+        <NavBar user={user} lightmode={lightmode} changeTheme={changeTheme} />
         <Switch>
           <ProtectedRoute path="/movies/:id" component={MovieForm} />
 
           <Route path="/rentals" component={Rentals} />
           <Route
             path="/movies"
-            render={(props) => <Movies {...props} user={this.state.user} />}
+            render={(props) => <Movies {...props} user={user} />}
           />
           <Route path="/customers" component={Customers} />
           <Route path="/login" component={Login} />
@@ -47,8 +77,8 @@ class App extends Component {
           <Redirect to="/not-found" />
         </Switch>
       </div>
-    );
-  }
+    </ThemeContext.Provider>
+  );
 }
 
 export default App;

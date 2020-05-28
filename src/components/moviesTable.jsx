@@ -3,8 +3,10 @@ import { NavLink } from "react-router-dom";
 import Like from "../commun/likeComponent";
 import Table from "../commun/table";
 import auth from "../services/authService";
+import ThemeContext from "../commun/context/themeContext";
 
 class MoviesTable extends Component {
+  static contextType = ThemeContext;
   columns = [
     {
       content: (movie) => (
@@ -31,7 +33,7 @@ class MoviesTable extends Component {
         auth.getCurrentUser() && auth.getCurrentUser().isAdmin
           ? (movie) => (
               <button
-                className="btn btn-danger"
+                className={`btn btn-${this.context.deleteButton}`}
                 onClick={() => this.props.onDelete(movie._id)}
               >
                 Delete

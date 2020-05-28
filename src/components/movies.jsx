@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 import { getMovies, deleteMovie } from "../services/movieService";
 import { getGenres } from "../services/genreService";
 import Pagination from "../commun/pagination";
@@ -9,7 +10,7 @@ import filterMovies from "../utils/filtering";
 import Listgroup from "../commun/listGroup";
 import MoviesTable from "./moviesTable";
 import SearchBox from "./searchBox";
-import _ from "lodash";
+import ThemeContext from "../commun/context/themeContext";
 
 class Movies extends Component {
   state = {
@@ -112,67 +113,75 @@ class Movies extends Component {
     const { user } = this.props;
     const { count, movies } = this.getPagedData();
     return (
-      <div className="row">
-        <div className="col-3">
-          <Listgroup
-            selectedGenre={selectedGenre}
-            onGenreSelect={this.onGenreSelect}
-            genres={genres}
-          />
-        </div>
-        <div className="col">
-          {!loading ? (
-            <div>
-              {user && (
-                <Link
-                  to={localStorage.getItem("token") ? "/movies/new" : "/login"}
-                >
-                  <button className="btn btn-info">Create Movie</button>
-                </Link>
-              )}
-              <SearchBox
-                name="query"
-                label="SearchBox"
-                onChange={this.onchange}
-                value={data.query}
+      <ThemeContext.Consumer>
+        {(theme) => (
+          <div className="row">
+            <div className="col-3">
+              <Listgroup
+                selectedGenre={selectedGenre}
+                onGenreSelect={this.onGenreSelect}
+                genres={genres}
               />
-              {count > 0 ? (
+            </div>
+            <div className="col">
+              {!loading ? (
                 <div>
-                  {selectedGenre.genre !== "All Genres" ? (
-                    <h3 style={{ color: "#eee" }}>
-                      Number of {selectedGenre.genre} movies is {count}
-                    </h3>
-                  ) : (
-                    <h3 style={{ color: "#eee" }}>
-                      Number of total movies is {count}
-                    </h3>
+                  {user && (
+                    <Link
+                      to={
+                        localStorage.getItem("token") ? "/movies/new" : "/login"
+                      }
+                    >
+                      <button className={`btn btn-${theme.createButton}`}>
+                        Create Movie
+                      </button>
+                    </Link>
                   )}
+                  <SearchBox
+                    name="query"
+                    label="SearchBox"
+                    onChange={this.onchange}
+                    value={data.query}
+                  />
+                  {count > 0 ? (
+                    <div>
+                      {selectedGenre.genre !== "All Genres" ? (
+                        <h3 style={{ color: theme.color }}>
+                          Number of {selectedGenre.genre} movies is {count}
+                        </h3>
+                      ) : (
+                        <h3 style={{ color: theme.color }}>
+                          Number of total movies is {count}
+                        </h3>
+                      )}
 
-                  <MoviesTable
-                    movies={movies}
-                    onLike={this.likemovie}
-                    onDelete={this.deletthemovie}
-                    sortColumn={sortColumn}
-                    onSort={this.handleSorting}
-                  />
-                  <Pagination
-                    maxPage={maxPage}
-                    movieNumber={count}
-                    handlepageChange={this.handlepageChange}
-                    currentPage={currentPage}
-                  />
+                      <MoviesTable
+                        movies={movies}
+                        onLike={this.likemovie}
+                        onDelete={this.deletthemovie}
+                        sortColumn={sortColumn}
+                        onSort={this.handleSorting}
+                      />
+                      <Pagination
+                        maxPage={maxPage}
+                        movieNumber={count}
+                        handlepageChange={this.handlepageChange}
+                        currentPage={currentPage}
+                      />
+                    </div>
+                  ) : (
+                    <h3 style={{ color: theme.color }}>there are no movies </h3>
+                  )}
                 </div>
               ) : (
-                <h3 style={{ color: "#eee" }}>there are no movies </h3>
+                <div className="spinner-border text-primary" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
               )}
             </div>
-          ) : (
-            <div className="spinner-border text-primary" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }
